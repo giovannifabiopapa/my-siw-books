@@ -1,7 +1,10 @@
 package it.uniroma3.siw.controller;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,18 +75,21 @@ public class AutoreController {
     }
     
     private String salvaFile(MultipartFile file) throws IOException {
+        // Crea un nome univoco per l'immagine
         String nomeFile = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
-        // Salva nella cartella 'uploads' nella root del progetto
-        String pathRelativo = "uploads/" + nomeFile;
+        // Percorso reale nel filesystem (non src/, ma cartella uploads nella root del progetto)
+        Path uploadDir = Paths.get("uploads");
+        Files.createDirectories(uploadDir); // Crea la cartella se non esiste
 
-        File destinazione = new File(pathRelativo);
-        destinazione.getParentFile().mkdirs(); // Crea la cartella se non esiste
-        file.transferTo(destinazione);
-
-        // Path da salvare nel database per Thymeleaf
+        // Percorso completo del file da salvare
+        Path pathDestinazione = uploadDir.resolve(nomeFile);
+        // Copia sicura e cross-platform
+        Files.copy(file.getInputStream(), pathDestinazione, StandardCopyOption.REPLACE_EXISTING);
+        // Path relativo da salvare nel database
         return "/uploads/" + nomeFile;
     }
+
 
 
 }
