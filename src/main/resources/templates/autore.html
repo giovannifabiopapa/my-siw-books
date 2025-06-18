@@ -9,6 +9,11 @@
 	<div><img src="/images/logo-app.png" width="25%" /></div>
 
     <h1 th:text="${autore.nome} + ' ' + ${autore.cognome}">Nome Autore</h1>
+	
+	<div th:if="${autore.fotografia != null}">
+	    <img th:src="@{${autore.fotografia}}" alt="Foto autore" width="250" style="margin-bottom: 15px;" />
+	</div>
+
     <p>Nazionalità: <span th:text="${autore.nazionalita}"></span></p>
     <p>Data di nascita: <span th:text="${autore.dataDiNascita}"></span></p>
     <p th:if="${autore.dataDiMorte != null}">Data di morte: <span th:text="${autore.dataDiMorte}"></span></p>

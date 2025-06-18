@@ -19,7 +19,7 @@
         <a href="/"><img src="/images/logo-app.png" width="25%" /></a>
     </div>
     <h1>Nuovo Libro</h1>
-    <form th:action="@{/admin/libri}" method="POST" th:object="${libro}">
+	<form th:action="@{/admin/libri}" method="POST" th:object="${libro}" enctype="multipart/form-data">
         <div>
             <label>Titolo</label>
             <span><input type="text" th:field="*{titolo}" /></span>
@@ -38,6 +38,12 @@
                 </select>
             </span>
         </div>
+		
+		<div>
+		    <label>Immagini del libro</label>
+		    <input type="file" name="fileImages" accept="image/*" multiple />
+		</div>
+
         <div>
             <button type="submit">Aggiungi</button>
         </div>

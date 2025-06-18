@@ -17,6 +17,12 @@
             <a th:href="@{'/autori/' + ${autore.id}}" th:text="${autore.nome} + ' ' + ${autore.cognome}"></a>
         </li>
     </ul>
+	
+	<h2>Immagini del libro</h2>
+	<div th:each="path : ${libro.immagini}">
+	    <img th:src="@{${path}}" width="250" style="margin:10px" />
+	</div>
+
 
 	<h2>Recensioni</h2>
 	<ul>

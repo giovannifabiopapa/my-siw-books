@@ -19,7 +19,7 @@
         <a href="/"><img src="/images/logo-app.png" width="25%" /></a>
     </div>
     <h1>Nuovo Autore</h1>
-    <form th:action="@{/admin/autori}" method="POST" th:object="${autore}">
+	<form th:action="@{/admin/autori}" method="POST" th:object="${autore}" enctype="multipart/form-data">
         <div>
             <label>Nome</label>
             <span><input type="text" th:field="*{nome}" /></span>
@@ -45,6 +45,12 @@
             <span><input type="text" th:field="*{nazionalita}" /></span>
             <span th:if="${#fields.hasErrors('nazionalita')}" th:errors="*{nazionalita}" th:style="'color:red'"></span>
         </div>
+		
+		<div>
+		    <label>Foto</label>
+		    <input type="file" name="fileImage" accept="image/*" />
+		</div>
+
         <div>
             <button type="submit">Aggiungi</button>
         </div>

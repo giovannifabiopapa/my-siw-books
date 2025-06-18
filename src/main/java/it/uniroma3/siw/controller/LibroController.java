@@ -1,5 +1,11 @@
 package it.uniroma3.siw.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.Libro;
@@ -66,18 +74,50 @@ public class LibroController {
     }
 
     @PostMapping("/admin/libri")
-    public String newLibro(@Valid @ModelAttribute("libro") Libro libro, BindingResult bindingResult, Model model) {
+    public String newLibro(@Valid @ModelAttribute("libro") Libro libro,
+                           BindingResult bindingResult,
+                           @RequestParam("fileImages") MultipartFile[] images,
+                           Model model) {
         if (!bindingResult.hasErrors() && !libroService.alreadyExists(libro)) {
+            List<String> immaginiPaths = new ArrayList<>();
+
+            for (MultipartFile image : images) {
+                if (!image.isEmpty()) {
+                    try {
+                        String path = salvaFile(image);
+                        immaginiPaths.add(path);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            libro.setImmagini(immaginiPaths);
             libroService.saveLibro(libro);
             return "redirect:/libri";
         }
+
         model.addAttribute("autori", autoreService.getAllAutori());
         return "admin/formNewLibro.html";
     }
+
 
     @GetMapping("/admin/libri/{id}/delete")
     public String deleteLibro(@PathVariable("id") Long id) {
         libroService.deleteLibro(id);
         return "redirect:/libri";
     }
+    
+    private String salvaFile(MultipartFile file) throws IOException {
+        String nomeFile = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        String pathRelativo = "uploads/" + nomeFile; // cartella nella root del progetto
+
+        File destinazione = new File(pathRelativo);
+        destinazione.getParentFile().mkdirs();
+        file.transferTo(destinazione);
+
+        return "/uploads/" + nomeFile; // questo è il path che Thymeleaf userà
+    }
+
+    
 }
