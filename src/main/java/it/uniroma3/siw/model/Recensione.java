@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Version;
 
 @Entity
 public class Recensione {
@@ -22,6 +23,9 @@ public class Recensione {
 
         @ManyToOne
         private User autore;
+        
+        @Version
+        private Integer version;
 
         public Long getId() {
                 return id;

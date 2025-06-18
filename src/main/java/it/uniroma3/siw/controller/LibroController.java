@@ -38,7 +38,7 @@ public class LibroController {
     public String formNewLibro(Model model) {
         model.addAttribute("libro", new Libro());
         model.addAttribute("autori", autoreService.getAllAutori());
-        return "admin/formLibro.html";
+        return "admin/formNewLibro.html";
     }
 
     @PostMapping("/admin/libri")
@@ -48,7 +48,7 @@ public class LibroController {
             return "redirect:/libri";
         }
         model.addAttribute("autori", autoreService.getAllAutori());
-        return "admin/formLibro.html";
+        return "admin/formNewLibro.html";
     }
 
     @GetMapping("/admin/libri/{id}/delete")

@@ -31,6 +31,13 @@ public class RecensioneController {
     @Autowired
     private CredentialsService credentialsService;
 
+    @GetMapping("/recensioni/libro/{id}/new")
+    public String formNewRecensione(@PathVariable("id") Long libroId, Model model) {
+        model.addAttribute("libro", libroService.getLibro(libroId));
+        model.addAttribute("recensione", new Recensione());
+        return "utente/formNewRecensione.html";
+    }
+    
     @PostMapping("/recensioni/libro/{id}")
     public String newRecensione(@PathVariable("id") Long libroId,
             @Valid @ModelAttribute("recensione") Recensione recensione,

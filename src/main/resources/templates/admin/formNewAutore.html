@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nuovo Autore</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+</head>
+<body>
+    <header>
+        <div th:if="${userDetails}">
+            <span th:text="${userDetails.username}"></span>
+            <a href="/logout">Logout</a>
+        </div>
+        <div th:unless="${userDetails}">
+            <a href="/login">Login</a>
+        </div>
+    </header>
+
+    <div>
+        <a href="/"><img src="/images/logo-app.png" width="50%" /></a>
+    </div>
+    <h1>Nuovo Autore</h1>
+    <form th:action="@{/admin/autori}" method="POST" th:object="${autore}">
+        <div>
+            <label>Nome</label>
+            <span><input type="text" th:field="*{nome}" /></span>
+            <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" th:style="'color:red'"></span>
+        </div>
+        <div>
+            <label>Cognome</label>
+            <span><input type="text" th:field="*{cognome}" /></span>
+            <span th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}" th:style="'color:red'"></span>
+        </div>
+        <div>
+            <label>Data di nascita</label>
+            <span><input type="date" th:field="*{dataDiNascita}" /></span>
+            <span th:if="${#fields.hasErrors('dataDiNascita')}" th:errors="*{dataDiNascita}" th:style="'color:red'"></span>
+        </div>
+        <div>
+            <label>Data di morte</label>
+            <span><input type="date" th:field="*{dataDiMorte}" /></span>
+            <span th:if="${#fields.hasErrors('dataDiMorte')}" th:errors="*{dataDiMorte}" th:style="'color:red'"></span>
+        </div>
+        <div>
+            <label>Nazionalità</label>
+            <span><input type="text" th:field="*{nazionalita}" /></span>
+            <span th:if="${#fields.hasErrors('nazionalita')}" th:errors="*{nazionalita}" th:style="'color:red'"></span>
+        </div>
+        <div>
+            <button type="submit">Aggiungi</button>
+        </div>
+    </form>
+</body>
+</html>

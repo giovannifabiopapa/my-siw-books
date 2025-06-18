@@ -34,7 +34,7 @@ public class AutoreController {
     @GetMapping("/admin/autori/new")
     public String formNewAutore(Model model) {
         model.addAttribute("autore", new Autore());
-        return "admin/formAutore.html";
+        return "admin/formNewAutore.html";
     }
 
     @PostMapping("/admin/autori")
@@ -43,7 +43,7 @@ public class AutoreController {
             autoreService.saveAutore(autore);
             return "redirect:/autori";
         }
-        return "admin/formAutore.html";
+        return "admin/formNewAutore.html";
     }
 
     @GetMapping("/admin/autori/{id}/delete")
