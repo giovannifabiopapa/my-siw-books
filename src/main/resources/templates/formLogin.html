@@ -1,25 +1,47 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
+
 <head>
-    <meta charset="UTF-8" />
-    <title>Login</title>
+	<title>
+		Siw Books - Login
+	</title>
+	<link rel="stylesheet" href="/css/stile.css" />
 </head>
+
 <body>
-    <h1>Accedi</h1>
-    <form th:action="@{/login}" method="post">
-        <div>
-            <label for="username">Username</label>
-            <input id="username" name="username" type="text" />
-        </div>
-        <div>
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" />
-        </div>
-        <div th:if="${param.error}">
-            Credenziali non valide
-        </div>
-        <button type="submit">Login</button>
-    </form>
-    <p><a th:href="@{/register}">Registrati</a></p>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<div>
+		<a href="/"><img src="/images/logo-app.png" width="30%"/></a>
+	</div>
+	<h1>Login</h1>
+	<form th:action="@{/login}" method="POST">
+			<div>
+				<span>Username:</span>
+				<span><input name="username" type="text" required /></span>
+			</div>
+			<div>
+				<span>Password:</span>
+				<span><input name="password" type="password" required /></span>
+			</div>
+			<div>
+				<span th:if="${param.error != null}">Username o password errati</span>
+			</div>
+			<div>
+				<span><button type="submit">Login</button></span>
+			</div>
+	</form>
+	<div>
+		<a th:href="@{/register}" th:text="Registrati">Registrati</a>
+	</div>
 </body>
+
 </html>

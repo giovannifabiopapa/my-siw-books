@@ -1,15 +1,41 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
+
 <head>
-    <meta charset="UTF-8" />
-    <title>Area Admin</title>
+	<title>
+		Siw Books - Homepage
+	</title>
+	<link rel="stylesheet" href="/css/stile.css" />
 </head>
+
 <body>
-    <h1>Area amministratore</h1>
-    <ul>
-        <li><a th:href="@{/admin/autori/new}">Nuovo Autore</a></li>
-        <li><a th:href="@{/admin/libri/new}">Nuovo Libro</a></li>
-    </ul>
-    <p><a th:href="@{/}">Torna al sito</a></p>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<div><img src="/images/logo-app.png" width="50%" /></div>
+	<h1>Consulta l'archivio</h1>
+	<div>
+		<a href="/autori">Elenco Autori</a>
+	</div>
+	<div>
+		<a href="/libri">Elenco libri</a>
+	</div>
+
+
+	<h1>Operazioni per amministratore</h1>
+	<div>
+		<a href="/admin/formAutore">Aggiungi autore</a>
+	</div>
+	<div>
+		<a href="/admin/formLibro">Aggiungi libro</a>
+	</div>
 </body>
+
 </html>
