@@ -2,23 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
-	<meta charset="UTF-8" />
-	<title>Autori</title>
-	<link rel="stylesheet" href="/css/stile.css" />
+    <meta charset="UTF-8" />
+    <title>Autori</title>
+    <link rel="stylesheet" href="/css/stile.css" />
 </head>
-
 <body>
-	<div><img src="/images/logo-app.png" width="25%" /></div>
-	
-	<h1>Elenco Autori</h1>
-	<ul>
-		<li th:each="autore : ${autori}">
-			<a th:href="@{'/autori/' + ${autore.id}}" th:text="${autore.nome} + ' ' + ${autore.cognome}"></a>
-		</li>
-	</ul>
-	<p>
-	    <a th:href="${#authorization.expression('hasAuthority(''ADMIN'')')} ? '/admin/index' : '/'">Home</a>
-	</p>
-</body>
+    <div><img src="/images/logo-app.png" width="25%" /></div>
 
+    <h1>Elenco Autori</h1>
+    <ul>
+        <li th:each="autore : ${autori}">
+            <span>
+                <a th:href="@{'/autori/' + ${autore.id}}" 
+                   th:text="${autore.nome} + ' ' + ${autore.cognome}"></a>
+            </span>
+            <span sec:authorize="hasAuthority('ADMIN')">
+                |
+                <a th:href="@{'/admin/autori/' + ${autore.id} + '/edit'}">Modifica</a>
+                |
+                <a th:href="@{'/admin/autori/' + ${autore.id} + '/delete'}"
+                   onclick="return confirm('Sei sicuro di voler eliminare questo autore?');">Elimina</a>
+            </span>
+        </li>
+    </ul>
+
+    <p>
+        <a th:href="${#authorization.expression('hasAuthority(''ADMIN'')')} ? '/admin/index' : '/'">Home</a>
+    </p>
+</body>
 </html>

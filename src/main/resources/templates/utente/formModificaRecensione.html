@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica recensione</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+</head>
+<body>
+
+    <h1>Modifica la tua recensione</h1>
+
+    <form th:action="@{'/recensioni/' + ${recensione.id} + '/update'}" method="post" th:object="${recensione}">
+        
+        <div>
+            <label for="titolo">Titolo:</label>
+            <input type="text" id="titolo" th:field="*{titolo}" required />
+        </div>
+
+        <div>
+            <label for="voto">Voto (1-5):</label>
+            <input type="number" id="voto" th:field="*{voto}" min="1" max="5" required />
+        </div>
+
+        <div>
+            <label for="testo">Testo:</label><br>
+            <textarea id="testo" th:field="*{testo}" rows="6" cols="60" required></textarea>
+        </div>
+
+        <div>
+            <button type="submit">Salva modifiche</button>
+        </div>
+
+    </form>
+
+    <p><a th:href="@{/libri/{id}(id=${recensione.libro.id})}">Torna al libro</a></p>
+
+</body>
+</html>

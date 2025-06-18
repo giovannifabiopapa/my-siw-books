@@ -1,6 +1,5 @@
 package it.uniroma3.siw.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,17 +32,21 @@ public class RecensioneService {
     @Transactional
     public Recensione saveRecensione(Recensione recensione) {
         if (recensione.getId() != null) {
+            // Cerchiamo la recensione già esistente
             Recensione managed = recensioneRepository.findById(recensione.getId()).orElse(null);
             if (managed != null) {
+                // Aggiorniamo solo i campi modificabili
+                managed.setTitolo(recensione.getTitolo());
                 managed.setTesto(recensione.getTesto());
                 managed.setVoto(recensione.getVoto());
                 return recensioneRepository.save(managed);
             } else {
-                recensione.setId(null); // forziamo nuova insert se l'id non esiste nel DB
+                recensione.setId(null); // per forzare l'inserimento se l'ID non esiste
             }
         }
         return recensioneRepository.save(recensione);
     }
+
 
 
     @Transactional

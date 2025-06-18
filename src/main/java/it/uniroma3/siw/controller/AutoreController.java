@@ -90,6 +90,38 @@ public class AutoreController {
         return "/uploads/" + nomeFile;
     }
 
+    @GetMapping("/admin/autori/{id}/edit")
+    public String formModificaAutore(@PathVariable("id") Long id, Model model) {
+        Autore autore = autoreService.getAutore(id);
+        if (autore == null)
+            return "redirect:/autori"; // fallback
+
+        model.addAttribute("autore", autore);
+        return "admin/formModificaAutore.html";
+    }
+
+    @PostMapping("/admin/autori/{id}/edit")
+    public String modificaAutore(@PathVariable("id") Long id,
+                                 @Valid @ModelAttribute("autore") Autore autore,
+                                 BindingResult bindingResult,
+                                 Model model) {
+        if (bindingResult.hasErrors()) {
+            return "admin/formModificaAutore.html";
+        }
+
+        Autore esistente = autoreService.getAutore(id);
+        if (esistente != null) {
+            esistente.setNome(autore.getNome());
+            esistente.setCognome(autore.getCognome());
+            esistente.setNazionalita(autore.getNazionalita());
+            esistente.setDataDiNascita(autore.getDataDiNascita());
+            esistente.setDataDiMorte(autore.getDataDiMorte());
+            autoreService.saveAutore(esistente);
+        }
+
+        return "redirect:/autori";
+    }
+
 
 
 }

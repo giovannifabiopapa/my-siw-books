@@ -126,5 +126,47 @@ public class LibroController {
         // Path relativo da salvare nel database
         return "/uploads/" + nomeFile;
     }
+    @GetMapping("/admin/libri/{id}/edit")
+    public String formModificaLibro(@PathVariable("id") Long id, Model model) {
+        Libro libro = libroService.getLibro(id);
+        model.addAttribute("libro", libro);
+        model.addAttribute("autori", autoreService.getAllAutori());
+        return "admin/formModificaLibro.html";
+    }
+
+    @PostMapping("/admin/libri/{id}/edit")
+    public String modificaLibro(@PathVariable("id") Long id,
+                                @Valid @ModelAttribute("libro") Libro libro,
+                                BindingResult bindingResult,
+                                @RequestParam("fileImages") MultipartFile[] images,
+                                Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("autori", autoreService.getAllAutori());
+            return "admin/formModificaLibro.html";
+        }
+
+        Libro libroEsistente = libroService.getLibro(id);
+        libroEsistente.setTitolo(libro.getTitolo());
+        libroEsistente.setAnnoPubblicazione(libro.getAnnoPubblicazione());
+        libroEsistente.setAutori(libro.getAutori());
+
+        if (images != null && images.length > 0 && !images[0].isEmpty()) {
+            List<String> nuoviPercorsi = new ArrayList<>();
+            for (MultipartFile image : images) {
+                try {
+                    String path = salvaFile(image);
+                    nuoviPercorsi.add(path);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            libroEsistente.setImmagini(nuoviPercorsi);
+        }
+
+        libroService.saveLibro(libroEsistente);
+        return "redirect:/libri";
+    }
+
 
 }

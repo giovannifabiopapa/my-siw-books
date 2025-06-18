@@ -24,6 +24,13 @@
 	</div>
 
     <form th:action="@{'/recensioni/libro/' + ${libro.id}}" method="POST" th:object="${recensione}">
+		
+		<div>
+		    <label for="titolo">Titolo</label>
+		    <input id="titolo" type="text" th:field="*{titolo}" />
+		    <span th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}" th:style="'color:red'"></span>
+		</div>
+		
         <div>
             <label for="voto">Voto</label>
             <input id="voto" type="number" th:field="*{voto}" />
