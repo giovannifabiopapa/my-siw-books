@@ -42,9 +42,20 @@ public class AuthenticationController {
 
 	@GetMapping("/")
 	public String index(Model model) {
-		model.addAttribute("libri", libroService.getAllLibri());
-		return "index.html";
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    if (auth != null && auth.isAuthenticated() && !(auth.getPrincipal() instanceof String)) {
+	        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+	        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+	        if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+	            model.addAttribute("libri", libroService.getAllLibri());
+	            return "admin/indexAdmin.html";
+	        }
+	    }
+
+	    model.addAttribute("libri", libroService.getAllLibri());
+	    return "index.html";
 	}
+
 
 	@GetMapping("/success")
 	public String defaultAfterLogin(Model model) {
@@ -71,4 +82,9 @@ public class AuthenticationController {
 		}
 		return "formRegisterUser.html";
 	}
+	
+	@GetMapping("/admin/index")
+	public String adminIndex() {
+	    return "admin/indexAdmin.html";
+	}	
 }

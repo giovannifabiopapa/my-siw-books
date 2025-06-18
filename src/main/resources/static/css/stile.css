@@ -1,0 +1,115 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+/* Root Variables */
+:root {
+    --primary: #f4a261;         /* arancio sabbia */
+    --primary-dark: #e76f51;    /* arancio scuro */
+    --accent: #ffdd57;          /* giallo pastello */
+    --text: #2a2a2a;            /* quasi nero */
+    --bg: #fff8f0;              /* sfondo crema */
+}
+
+/* Reset base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 1rem;
+}
+
+/* Header */
+header {
+    background-color: var(--primary);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 1rem;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+/* Titoli */
+h1, h2, h3 {
+    font-family: 'Merriweather', serif;
+    color: var(--primary-dark);
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-top: 2rem;
+}
+
+/* Link */
+a {
+    color: var(--primary-dark);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Bottoni */
+button, input[type="submit"] {
+    background-color: var(--primary-dark);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 1rem;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: var(--primary);
+}
+
+/* Form */
+input, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Container e sezioni */
+div.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: var(--primary);
+    color: white;
+    margin-top: 2rem;
+}

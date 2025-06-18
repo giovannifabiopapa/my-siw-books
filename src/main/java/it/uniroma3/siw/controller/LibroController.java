@@ -1,6 +1,9 @@
 package it.uniroma3.siw.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,8 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.Libro;
 import it.uniroma3.siw.service.AutoreService;
+import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.LibroService;
 import jakarta.validation.Valid;
 
@@ -21,6 +26,9 @@ public class LibroController {
     private LibroService libroService;
     @Autowired
     private AutoreService autoreService;
+    @Autowired
+    private CredentialsService credentialsService;
+
 
     @GetMapping("/libri")
     public String listLibri(Model model) {
@@ -30,9 +38,25 @@ public class LibroController {
 
     @GetMapping("/libri/{id}")
     public String getLibro(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("libro", libroService.getLibro(id));
+        Libro libro = libroService.getLibro(id);
+
+        // Forza il caricamento delle recensioni se sono LAZY
+        libro.getRecensioni().size();
+
+        model.addAttribute("libro", libro);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated() && !auth.getPrincipal().equals("anonymousUser")) {
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            model.addAttribute("userDetails", userDetails);
+            
+            Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+            model.addAttribute("user", credentials.getUser());
+        }
+
         return "libro.html";
     }
+
 
     @GetMapping("/admin/libri/new")
     public String formNewLibro(Model model) {

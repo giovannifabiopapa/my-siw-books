@@ -1,16 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8" />
-    <title>Autori</title>
+	<meta charset="UTF-8" />
+	<title>Autori</title>
+	<link rel="stylesheet" href="/css/stile.css" />
 </head>
+
 <body>
-    <h1>Elenco Autori</h1>
-    <ul>
-        <li th:each="autore : ${autori}">
-            <a th:href="@{'/autori/' + ${autore.id}}" th:text="${autore.nome} + ' ' + ${autore.cognome}"></a>
-        </li>
-    </ul>
-    <p><a th:href="@{/}">Home</a></p>
+	<div><img src="/images/logo-app.png" width="25%" /></div>
+	
+	<h1>Elenco Autori</h1>
+	<ul>
+		<li th:each="autore : ${autori}">
+			<a th:href="@{'/autori/' + ${autore.id}}" th:text="${autore.nome} + ' ' + ${autore.cognome}"></a>
+		</li>
+	</ul>
+	<p>
+	    <a th:href="${#authorization.expression('hasAuthority(''ADMIN'')')} ? '/admin/index' : '/'">Home</a>
+	</p>
 </body>
+
 </html>

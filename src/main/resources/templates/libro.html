@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <title th:text="${libro.titolo}">Libro</title>
+	<link rel="stylesheet" href="/css/stile.css" />
 </head>
 <body>
+	<div><img src="/images/logo-app.png" width="25%" /></div>
+
     <h1 th:text="${libro.titolo}">Titolo</h1>
     <p>Anno di pubblicazione: <span th:text="${libro.annoPubblicazione}"></span></p>
 
@@ -15,14 +18,19 @@
         </li>
     </ul>
 
-    <h2>Recensioni</h2>
-    <ul>
-        <li th:each="rec : ${libro.recensioni}">
-            <strong th:text="${rec.autore.name + ' ' + rec.autore.surname}"></strong>
-            <span th:text="${rec.voto}"></span>
-            <p th:text="${rec.testo}"></p>
-        </li>
-    </ul>
+	<h2>Recensioni</h2>
+	<ul>
+	    <li th:each="rec : ${libro.recensioni}">
+	        <strong th:text="${rec.autore.name + ' ' + rec.autore.surname}"></strong>
+	        <span th:text="'Voto: ' + ${rec.voto}"></span>
+	        <p th:text="${rec.testo}"></p>
+
+			<div th:if="${user != null and user.id == rec.autore.id}">
+	            <a th:href="@{'/recensioni/' + ${rec.id} + '/edit'}">Modifica</a>
+	            <a th:href="@{'/admin/recensioni/' + ${rec.id} + '/delete'}">Elimina</a>
+	        </div>
+	    </li>
+	</ul>
 
     <div th:if="${userDetails != null}">
         <h3>Aggiungi recensione</h3>

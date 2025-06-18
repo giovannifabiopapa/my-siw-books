@@ -1,19 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
     <title>Home</title>
+    <link rel="stylesheet" href="/css/stile.css" />
 </head>
 <body>
+    <div><img src="/images/logo-app.png" width="25%" /></div>
+
     <h1>Libri</h1>
     <ul>
         <li th:each="libro : ${libri}">
             <a th:href="@{'/libri/' + ${libro.id}}" th:text="${libro.titolo}"></a>
         </li>
     </ul>
+
     <p>
-        <a th:href="@{/login}">Login</a> |
-        <a th:href="@{/register}">Registrati</a>
+        <span sec:authorize="!isAuthenticated()">
+            <a th:href="@{/login}">Login</a> |
+            <a th:href="@{/register}">Registrati</a>
+        </span>
+
+        <span sec:authorize="isAuthenticated()">
+            <a th:href="@{/logout}">Logout</a>
+        </span>
     </p>
 </body>
 </html>

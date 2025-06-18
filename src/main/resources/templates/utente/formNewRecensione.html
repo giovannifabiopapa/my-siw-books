@@ -16,11 +16,11 @@
     </header>
 
     <div>
-        <a href="/"><img src="/images/logo-app.png" width="50%" /></a>
+        <a href="/"><img src="/images/logo-app.png" width="25%" /></a>
     </div>
     <h1 th:text="'Recensisci: ' + ${libro.titolo}">Nuova Recensione</h1>
-	<div th:if="${errore}" style="color: red; font-weight: bold;">
-	    <p th:text="${errore}"></p>
+	<div th:if="${errore}" class="error">
+	    <p th:text="#{${errore}}"></p>
 	</div>
 
     <form th:action="@{'/recensioni/libro/' + ${libro.id}}" method="POST" th:object="${recensione}">

@@ -24,59 +24,59 @@ import jakarta.validation.Valid;
 @Controller
 public class RecensioneController {
 
-    @Autowired
-    private RecensioneService recensioneService;
-    @Autowired
-    private LibroService libroService;
-    @Autowired
-    private CredentialsService credentialsService;
+	@Autowired
+	private RecensioneService recensioneService;
+	@Autowired
+	private LibroService libroService;
+	@Autowired
+	private CredentialsService credentialsService;
 
-    @GetMapping("/recensioni/libro/{id}/new")
-    public String formNewRecensione(@PathVariable("id") Long libroId, Model model) {
-        model.addAttribute("libro", libroService.getLibro(libroId));
-        model.addAttribute("recensione", new Recensione());
-        return "utente/formNewRecensione.html";
-    }
-    
-    @PostMapping("/recensioni/libro/{id}")
-    public String newRecensione(@PathVariable("id") Long libroId,
-                                @Valid @ModelAttribute("recensione") Recensione recensione,
-                                BindingResult bindingResult, Model model) {
+	@GetMapping("/recensioni/libro/{id}/new")
+	public String formNewRecensione(@PathVariable("id") Long libroId, Model model) {
+		model.addAttribute("libro", libroService.getLibro(libroId));
+		model.addAttribute("recensione", new Recensione());
+		return "utente/formNewRecensione.html";
+	}
 
-        Libro libro = libroService.getLibro(libroId);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) auth.getPrincipal();
-        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-        User user = credentials.getUser();
+	@PostMapping("/recensioni/libro/{id}")
+	public String newRecensione(@PathVariable("id") Long libroId,
+	        @Valid @ModelAttribute("recensione") Recensione recensione, BindingResult bindingResult, Model model) {
 
-        if (recensioneService.alreadyReviewed(libro, user)) {
-            model.addAttribute("libro", libro);
-            model.addAttribute("userDetails", userDetails);
-            model.addAttribute("errore", "Hai già recensito questo libro. Puoi modificarla o eliminarla.");
-            return "utente/formNewRecensione";
-        }
+	    Libro libro = libroService.getLibro(libroId);
 
-        if (!bindingResult.hasErrors()) {
-            recensione.setLibro(libro);
-            recensione.setAutore(user);
-            recensioneService.saveRecensione(recensione);
-            return "redirect:/libri/" + libroId;
-        }
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    UserDetails userDetails = (UserDetails) auth.getPrincipal();
+	    Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+	    User user = credentials.getUser();
 
-        model.addAttribute("libro", libro);
-        model.addAttribute("userDetails", userDetails);
-        return "utente/formNewRecensione";
-    }
+	    if (bindingResult.hasErrors()) {
+	        model.addAttribute("libro", libro);
+	        return "utente/formNewRecensione.html";
+	    }
+
+	    if (recensioneService.alreadyReviewed(libro, user)) {
+	        model.addAttribute("libro", libro);
+	        model.addAttribute("errore", "recensione.gia.esistente");
+	        return "utente/formNewRecensione.html";
+	    }
+
+	    recensione.setId(null); // evita merge/sovrascrizione
+	    recensione.setLibro(libro);
+	    recensione.setAutore(user);
+	    recensioneService.saveRecensione(recensione);
+
+	    return "redirect:/libri/" + libroId;
+	}
 
 
-    @GetMapping("/admin/recensioni/{id}/delete")
-    public String deleteRecensione(@PathVariable("id") Long id) {
-        Recensione recensione = recensioneService.getRecensione(id);
-        if (recensione != null) {
-            Long libroId = recensione.getLibro().getId();
-            recensioneService.deleteRecensione(id);
-            return "redirect:/libri/" + libroId;
-        }
-        return "redirect:/libri";
-    }
+	@GetMapping("/admin/recensioni/{id}/delete")
+	public String deleteRecensione(@PathVariable("id") Long id) {
+		Recensione recensione = recensioneService.getRecensione(id);
+		if (recensione != null) {
+			Long libroId = recensione.getLibro().getId();
+			recensioneService.deleteRecensione(id);
+			return "redirect:/libri/" + libroId;
+		}
+		return "redirect:/libri";
+	}
 }

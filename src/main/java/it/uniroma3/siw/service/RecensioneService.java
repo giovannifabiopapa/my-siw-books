@@ -50,6 +50,11 @@ public class RecensioneService {
     public void deleteRecensione(Long id) {
         recensioneRepository.deleteById(id);
     }
+    
+    @Transactional
+    public Recensione getByLibroAndAutore(Libro libro, User autore) {
+        return recensioneRepository.findByLibroAndAutore(libro, autore).orElse(null);
+    }
 
     public boolean alreadyReviewed(Libro libro, User autore) {
         return recensioneRepository.existsByLibroAndAutore(libro, autore);

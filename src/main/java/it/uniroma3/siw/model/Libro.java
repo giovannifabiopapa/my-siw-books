@@ -3,6 +3,7 @@ package it.uniroma3.siw.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ public class Libro {
         @ManyToMany
         private List<Autore> autori = new ArrayList<>();
 
-        @OneToMany(mappedBy = "libro")
+        @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, orphanRemoval = true)
         private List<Recensione> recensioni = new ArrayList<>();
 
         public Long getId() {
