@@ -40,21 +40,34 @@ public class RecensioneController {
     
     @PostMapping("/recensioni/libro/{id}")
     public String newRecensione(@PathVariable("id") Long libroId,
-            @Valid @ModelAttribute("recensione") Recensione recensione,
-            BindingResult bindingResult, Model model) {
+                                @Valid @ModelAttribute("recensione") Recensione recensione,
+                                BindingResult bindingResult, Model model) {
+
         Libro libro = libroService.getLibro(libroId);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
         Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
         User user = credentials.getUser();
 
-        if (!bindingResult.hasErrors() && !recensioneService.alreadyReviewed(libro, user)) {
+        if (recensioneService.alreadyReviewed(libro, user)) {
+            model.addAttribute("libro", libro);
+            model.addAttribute("userDetails", userDetails);
+            model.addAttribute("errore", "Hai già recensito questo libro. Puoi modificarla o eliminarla.");
+            return "utente/formNewRecensione";
+        }
+
+        if (!bindingResult.hasErrors()) {
             recensione.setLibro(libro);
             recensione.setAutore(user);
             recensioneService.saveRecensione(recensione);
+            return "redirect:/libri/" + libroId;
         }
-        return "redirect:/libri/" + libroId;
+
+        model.addAttribute("libro", libro);
+        model.addAttribute("userDetails", userDetails);
+        return "utente/formNewRecensione";
     }
+
 
     @GetMapping("/admin/recensioni/{id}/delete")
     public String deleteRecensione(@PathVariable("id") Long id) {

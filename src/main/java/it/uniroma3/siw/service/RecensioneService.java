@@ -32,8 +32,19 @@ public class RecensioneService {
 
     @Transactional
     public Recensione saveRecensione(Recensione recensione) {
+        if (recensione.getId() != null) {
+            Recensione managed = recensioneRepository.findById(recensione.getId()).orElse(null);
+            if (managed != null) {
+                managed.setTesto(recensione.getTesto());
+                managed.setVoto(recensione.getVoto());
+                return recensioneRepository.save(managed);
+            } else {
+                recensione.setId(null); // forziamo nuova insert se l'id non esiste nel DB
+            }
+        }
         return recensioneRepository.save(recensione);
     }
+
 
     @Transactional
     public void deleteRecensione(Long id) {
