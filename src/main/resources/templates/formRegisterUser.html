@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Registrazione</title>
+</head>
+<body>
+    <h1>Registrati</h1>
+    <form th:action="@{/register}" method="post">
+        <div th:object="${user}">
+            <label for="name">Nome</label>
+            <input id="name" type="text" th:field="*{name}" />
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+            <label for="surname">Cognome</label>
+            <input id="surname" type="text" th:field="*{surname}" />
+            <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+
+            <label for="email">Email</label>
+            <input id="email" type="email" th:field="*{email}" />
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        </div>
+        <div th:object="${credentials}">
+            <label for="username">Username</label>
+            <input id="username" type="text" th:field="*{username}" />
+            <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+
+            <label for="password">Password</label>
+            <input id="password" type="password" th:field="*{password}" />
+            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        </div>
+        <button type="submit">Registrati</button>
+    </form>
+    <p><a th:href="@{/login}">Hai già un account? Accedi</a></p>
+</body>
+</html>

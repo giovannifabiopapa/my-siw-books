@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${autore.nome} + ' ' + ${autore.cognome}">Autore</title>
+</head>
+<body>
+    <h1 th:text="${autore.nome} + ' ' + ${autore.cognome}">Nome Autore</h1>
+    <p>Nazionalità: <span th:text="${autore.nazionalita}"></span></p>
+    <p>Data di nascita: <span th:text="${autore.dataDiNascita}"></span></p>
+    <p th:if="${autore.dataDiMorte != null}">Data di morte: <span th:text="${autore.dataDiMorte}"></span></p>
+
+    <h2>Libri</h2>
+    <ul>
+        <li th:each="libro : ${autore.libri}">
+            <a th:href="@{'/libri/' + ${libro.id}}" th:text="${libro.titolo}"></a>
+        </li>
+    </ul>
+
+    <p><a th:href="@{/autori}">Torna agli autori</a></p>
+</body>
+</html>

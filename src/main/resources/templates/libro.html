@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${libro.titolo}">Libro</title>
+</head>
+<body>
+    <h1 th:text="${libro.titolo}">Titolo</h1>
+    <p>Anno di pubblicazione: <span th:text="${libro.annoPubblicazione}"></span></p>
+
+    <h2>Autori</h2>
+    <ul>
+        <li th:each="autore : ${libro.autori}">
+            <a th:href="@{'/autori/' + ${autore.id}}" th:text="${autore.nome} + ' ' + ${autore.cognome}"></a>
+        </li>
+    </ul>
+
+    <h2>Recensioni</h2>
+    <ul>
+        <li th:each="rec : ${libro.recensioni}">
+            <strong th:text="${rec.autore.name + ' ' + rec.autore.surname}"></strong>
+            <span th:text="${rec.voto}"></span>
+            <p th:text="${rec.testo}"></p>
+        </li>
+    </ul>
+
+    <div th:if="${userDetails != null}">
+        <h3>Aggiungi recensione</h3>
+        <form th:action="@{'/recensioni/libro/' + ${libro.id}}" method="post" th:object="${recensione}">
+            <div>
+                <label for="titolo">Titolo</label>
+                <input id="titolo" type="text" th:field="*{titolo}" />
+                <span th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}"></span>
+            </div>
+            <div>
+                <label for="voto">Voto</label>
+                <input id="voto" type="number" th:field="*{voto}" />
+                <span th:if="${#fields.hasErrors('voto')}" th:errors="*{voto}"></span>
+            </div>
+            <div>
+                <label for="testo">Testo</label>
+                <textarea id="testo" th:field="*{testo}"></textarea>
+                <span th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}"></span>
+            </div>
+            <button type="submit">Invia</button>
+        </form>
+    </div>
+
+    <p><a th:href="@{/libri}">Torna ai libri</a></p>
+</body>
+</html>

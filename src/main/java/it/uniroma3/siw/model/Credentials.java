@@ -17,6 +17,7 @@ public class Credentials {
 	private String role;
 
 	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id", unique = true)
 	private User user;
 	
 	public String getUsername() {
