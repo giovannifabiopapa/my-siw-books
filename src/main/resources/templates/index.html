@@ -1,33 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
     <title>Home</title>
     <link rel="stylesheet" href="/css/stile.css" />
 </head>
 <body>
-    <div><img src="/images/logo-app.png" width="25%" /></div>
 
-    <h1>Libri</h1>
-    <ul>
-        <li th:each="libro : ${libri}">
-            <a th:href="@{'/libri/' + ${libro.id}}" th:text="${libro.titolo}"></a>
-        </li>
-    </ul>
-	
-	<p>
-	    <a th:href="@{/autori}">Visualizza tutti gli autori</a>
-	</p>
+    <img src="/images/logo-app.png" alt="Logo Siw Books" />
 
-    <p>
-        <span sec:authorize="!isAuthenticated()">
-            <a th:href="@{/login}">Login</a> |
-            <a th:href="@{/register}">Registrati</a>
-        </span>
+    <div class="container">
+        <h1>📚 Libri</h1>
+        <ul>
+            <li th:each="libro : ${libri}">
+                <a th:href="@{'/libri/' + ${libro.id}}" th:text="${libro.titolo}">Titolo Libro</a>
+            </li>
+        </ul>
 
-        <span sec:authorize="isAuthenticated()">
-            <a th:href="@{/logout}">Logout</a>
-        </span>
-    </p>
+        <p class="action-links">
+            <a th:href="@{/autori}">Visualizza tutti gli autori</a>
+        </p>
+
+        <p class="action-links">
+            <span sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}">Login</a>
+                <a th:href="@{/register}">Registrati</a>
+            </span>
+
+            <span sec:authorize="isAuthenticated()">
+                <a th:href="@{/logout}">Logout</a>
+            </span>
+        </p>
+    </div>
+
 </body>
 </html>

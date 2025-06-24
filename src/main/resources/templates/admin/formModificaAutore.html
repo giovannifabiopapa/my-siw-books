@@ -7,29 +7,39 @@
 </head>
 <body>
 
-    <div><img src="/images/logo-app.png" width="25%" /></div>
+    <a href="/"><img src="/images/logo-app.png" class="login-logo" alt="Logo SiwBooks" /></a>
 
-    <h1>Modifica Autore</h1>
+    <div class="container">
+        <h1>Modifica Autore</h1>
 
-    <form th:action="@{'/admin/autori/' + ${autore.id} + '/edit'}" th:object="${autore}" method="post">
-        <label>Nome:</label>
-        <input type="text" th:field="*{nome}" required /><br/>
+        <form th:action="@{'/admin/autori/' + ${autore.id} + '/edit'}" 
+              th:object="${autore}" method="post" enctype="multipart/form-data">
 
-        <label>Cognome:</label>
-        <input type="text" th:field="*{cognome}" required /><br/>
+            <label for="nome">Nome:</label>
+            <input id="nome" type="text" th:field="*{nome}" required />
 
-        <label>Nazionalità:</label>
-        <input type="text" th:field="*{nazionalita}" /><br/>
+            <label for="cognome">Cognome:</label>
+            <input id="cognome" type="text" th:field="*{cognome}" required />
 
-        <label>Data di nascita:</label>
-        <input type="date" th:field="*{dataDiNascita}" /><br/>
+            <label for="nazionalita">Nazionalità:</label>
+            <input id="nazionalita" type="text" th:field="*{nazionalita}" />
 
-        <label>Data di morte:</label>
-        <input type="date" th:field="*{dataDiMorte}" /><br/>
+            <label for="dataNascita">Data di nascita:</label>
+            <input id="dataNascita" type="date" th:field="*{dataDiNascita}" />
 
-        <button type="submit">Salva modifiche</button>
-    </form>
+            <label for="dataMorte">Data di morte:</label>
+            <input id="dataMorte" type="date" th:field="*{dataDiMorte}" />
 
-    <p><a th:href="@{/autori}">Torna alla lista autori</a></p>
+            <label for="fileImage">Sostituisci foto autore:</label>
+            <input type="file" id="fileImage" name="fileImage" accept="image/*" />
+
+            <button type="submit">Salva modifiche</button>
+        </form>
+
+        <div class="action-links">
+            <a th:href="@{/autori}">Torna alla lista autori</a>
+        </div>
+    </div>
+
 </body>
 </html>

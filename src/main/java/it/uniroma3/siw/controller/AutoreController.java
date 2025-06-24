@@ -104,6 +104,7 @@ public class AutoreController {
     public String modificaAutore(@PathVariable("id") Long id,
                                  @Valid @ModelAttribute("autore") Autore autore,
                                  BindingResult bindingResult,
+                                 @RequestParam("fileImage") MultipartFile image,
                                  Model model) {
         if (bindingResult.hasErrors()) {
             return "admin/formModificaAutore.html";
@@ -116,11 +117,23 @@ public class AutoreController {
             esistente.setNazionalita(autore.getNazionalita());
             esistente.setDataDiNascita(autore.getDataDiNascita());
             esistente.setDataDiMorte(autore.getDataDiMorte());
+
+            // GESTIONE IMMAGINE: aggiorna solo se viene caricata una nuova
+            if (image != null && !image.isEmpty()) {
+                try {
+                    String path = salvaFile(image);
+                    esistente.setFotografia(path);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
             autoreService.saveAutore(esistente);
         }
 
         return "redirect:/autori";
     }
+
 
 
 

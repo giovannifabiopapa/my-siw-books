@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8" />
     <title>Nuovo Autore</title>
     <link rel="stylesheet" href="/css/stile.css" />
 </head>
 <body>
+
     <header>
         <div th:if="${userDetails}">
             <span th:text="${userDetails.username}"></span>
@@ -15,45 +17,39 @@
         </div>
     </header>
 
-    <div>
-        <a href="/"><img src="/images/logo-app.png" width="25%" /></a>
-    </div>
-    <h1>Nuovo Autore</h1>
-	<form th:action="@{/admin/autori}" method="POST" th:object="${autore}" enctype="multipart/form-data">
-        <div>
-            <label>Nome</label>
-            <span><input type="text" th:field="*{nome}" /></span>
-            <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" th:style="'color:red'"></span>
-        </div>
-        <div>
-            <label>Cognome</label>
-            <span><input type="text" th:field="*{cognome}" /></span>
-            <span th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}" th:style="'color:red'"></span>
-        </div>
-        <div>
-            <label>Data di nascita</label>
-            <span><input type="date" th:field="*{dataDiNascita}" /></span>
-            <span th:if="${#fields.hasErrors('dataDiNascita')}" th:errors="*{dataDiNascita}" th:style="'color:red'"></span>
-        </div>
-        <div>
-            <label>Data di morte</label>
-            <span><input type="date" th:field="*{dataDiMorte}" /></span>
-            <span th:if="${#fields.hasErrors('dataDiMorte')}" th:errors="*{dataDiMorte}" th:style="'color:red'"></span>
-        </div>
-        <div>
-            <label>Nazionalità</label>
-            <span><input type="text" th:field="*{nazionalita}" /></span>
-            <span th:if="${#fields.hasErrors('nazionalita')}" th:errors="*{nazionalita}" th:style="'color:red'"></span>
-        </div>
-		
-		<div>
-		    <label>Foto</label>
-		    <input type="file" name="fileImage" accept="image/*" />
-		</div>
+    <a href="/"><img src="/images/logo-app.png" class="login-logo" alt="Logo SiwBooks" /></a>
 
-        <div>
+    <div class="container">
+        <h1>Nuovo Autore</h1>
+
+        <form th:action="@{/admin/autori}" method="POST" th:object="${autore}" enctype="multipart/form-data">
+            
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" th:field="*{nome}" />
+            <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="error-message"></div>
+
+            <label for="cognome">Cognome</label>
+            <input type="text" id="cognome" th:field="*{cognome}" />
+            <div th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}" class="error-message"></div>
+
+            <label for="dataNascita">Data di nascita</label>
+            <input type="date" id="dataNascita" th:field="*{dataDiNascita}" />
+            <div th:if="${#fields.hasErrors('dataDiNascita')}" th:errors="*{dataDiNascita}" class="error-message"></div>
+
+            <label for="dataMorte">Data di morte</label>
+            <input type="date" id="dataMorte" th:field="*{dataDiMorte}" />
+            <div th:if="${#fields.hasErrors('dataDiMorte')}" th:errors="*{dataDiMorte}" class="error-message"></div>
+
+            <label for="nazionalita">Nazionalità</label>
+            <input type="text" id="nazionalita" th:field="*{nazionalita}" />
+            <div th:if="${#fields.hasErrors('nazionalita')}" th:errors="*{nazionalita}" class="error-message"></div>
+
+            <label for="fileImage">Foto</label>
+            <input type="file" id="fileImage" name="fileImage" accept="image/*" />
+
             <button type="submit">Aggiungi</button>
-        </div>
-    </form>
+        </form>
+    </div>
+
 </body>
 </html>

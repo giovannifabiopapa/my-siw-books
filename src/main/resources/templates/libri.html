@@ -7,26 +7,31 @@
     <link rel="stylesheet" href="/css/stile.css" />
 </head>
 <body>
-    <div><img src="/images/logo-app.png" width="25%" /></div>
 
-    <h1>Elenco Libri</h1>
-    <ul>
-        <li th:each="libro : ${libri}">
-            <span>
-                <a th:href="@{'/libri/' + ${libro.id}}" th:text="${libro.titolo}"></a>
-            </span>
-            <span sec:authorize="hasAuthority('ADMIN')">
-                |
-                <a th:href="@{'/admin/libri/' + ${libro.id} + '/edit'}">Modifica</a>
-                |
-                <a th:href="@{'/admin/libri/' + ${libro.id} + '/delete'}"
-                   onclick="return confirm('Sei sicuro di voler eliminare questo libro?');">Elimina</a>
-            </span>
-        </li>
-    </ul>
+    <a href="/"><img src="/images/logo-app.png" class="login-logo" alt="Logo SiwBooks" /></a>
 
-    <p>
-        <a th:href="${#authorization.expression('hasAuthority(''ADMIN'')')} ? '/admin/index' : '/'">Home</a>
-    </p>
+    <div class="container">
+        <h1>Elenco Libri</h1>
+
+        <ul>
+            <li th:each="libro : ${libri}">
+                <span>
+                    <a th:href="@{'/libri/' + ${libro.id}}" th:text="${libro.titolo}"></a>
+                </span>
+                <span sec:authorize="hasAuthority('ADMIN')">
+                    |
+                    <a th:href="@{'/admin/libri/' + ${libro.id} + '/edit'}">Modifica</a>
+                    |
+                    <a th:href="@{'/admin/libri/' + ${libro.id} + '/delete'}"
+                       onclick="return confirm('Sei sicuro di voler eliminare questo libro?');">Elimina</a>
+                </span>
+            </li>
+        </ul>
+
+        <div class="action-links">
+            <a th:href="${#authorization.expression('hasAuthority(''ADMIN'')')} ? '/admin/index' : '/'">Home</a>
+        </div>
+    </div>
+
 </body>
 </html>

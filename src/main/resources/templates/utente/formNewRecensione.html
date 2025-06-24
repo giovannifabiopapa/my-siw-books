@@ -1,49 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Nuova Recensione</title>
     <link rel="stylesheet" href="/css/stile.css" />
 </head>
 <body>
-    <header>
-        <div th:if="${userDetails}">
-            <span th:text="${userDetails.username}"></span>
-            <a href="/logout">Logout</a>
-        </div>
-        <div th:unless="${userDetails}">
-            <a href="/login">Login</a>
-        </div>
-    </header>
 
-    <div>
-        <a href="/"><img src="/images/logo-app.png" width="25%" /></a>
-    </div>
-    <h1 th:text="'Recensisci: ' + ${libro.titolo}">Nuova Recensione</h1>
-	<div th:if="${errore}" class="error">
-	    <p th:text="#{${errore}}"></p>
-	</div>
+    <a href="/"><img src="/images/logo-app.png" class="login-logo" alt="Logo SiwBooks" /></a>
 
-    <form th:action="@{'/recensioni/libro/' + ${libro.id}}" method="POST" th:object="${recensione}">
-		
-		<div>
-		    <label for="titolo">Titolo</label>
-		    <input id="titolo" type="text" th:field="*{titolo}" />
-		    <span th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}" th:style="'color:red'"></span>
-		</div>
-		
-        <div>
+    <div class="container">
+        <h1 th:text="'Recensisci: ' + ${libro.titolo}">Nuova Recensione</h1>
+
+        <div th:if="${errore}" class="error-message">
+            <p th:text="#{${errore}}"></p>
+        </div>
+
+        <form th:action="@{'/recensioni/libro/' + ${libro.id}}" method="POST" th:object="${recensione}">
+
+            <label for="titolo">Titolo</label>
+            <input id="titolo" type="text" th:field="*{titolo}" />
+            <span th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}" class="error-message"></span>
+
             <label for="voto">Voto</label>
-            <input id="voto" type="number" th:field="*{voto}" />
-            <span th:if="${#fields.hasErrors('voto')}" th:errors="*{voto}" th:style="'color:red'"></span>
-        </div>
-        <div>
+            <input id="voto" type="number" th:field="*{voto}" min="1" max="5" />
+            <span th:if="${#fields.hasErrors('voto')}" th:errors="*{voto}" class="error-message"></span>
+
             <label for="testo">Testo</label>
-            <textarea id="testo" th:field="*{testo}"></textarea>
-            <span th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}" th:style="'color:red'"></span>
-        </div>
-        <div>
+            <textarea id="testo" th:field="*{testo}" rows="6"></textarea>
+            <span th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}" class="error-message"></span>
+
             <button type="submit">Invia</button>
-        </div>
-    </form>
+        </form>
+    </div>
+
 </body>
 </html>

@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+:root {
+    --primary: #f4a261;
+    --primary-dark: #e76f51;
+    --accent: #ffdd57;
+    --text: #2a2a2a;
+    --bg: #fff8f0;
+    --white: #ffffff;
+    --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg);
+    font-family: 'Open Sans', sans-serif;
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem;
+}
+
+/* Logo */
+img {
+    display: block;
+    margin: 1.5rem auto;
+    max-width: 200px;
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+/* Titolo */
+h1 {
+    font-family: 'Merriweather', serif;
+    font-size: 2.2rem;
+    color: var(--primary-dark);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Lista autori */
+ul {
+    list-style: none;
+    max-width: 700px;
+    margin: auto;
+    padding: 0;
+}
+
+li {
+    background: var(--white);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    animation: fadeSlideUp 0.5s ease both;
+}
+
+li:hover {
+    transform: translateY(-4px);
+    background-color: #fff3e3;
+}
+
+/* Link autore */
+li a {
+    color: var(--primary-dark);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+li a:hover {
+    text-decoration: underline;
+}
+
+/* Link azioni admin */
+span[sec\\:authorize] a {
+    margin-left: 0.5rem;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+span[sec\\:authorize] a:hover {
+    color: var(--primary);
+}
+
+/* Home link */
+p {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+p a {
+    display: inline-block;
+    background: var(--primary-dark);
+    color: var(--white);
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+p a:hover {
+    background: var(--primary);
+}
+
+/* Animazione */
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

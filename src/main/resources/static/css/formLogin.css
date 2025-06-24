@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+:root {
+    --primary: #f4a261;
+    --primary-dark: #e76f51;
+    --accent: #ffdd57;
+    --bg: #fff8f0;
+    --white: #ffffff;
+    --text: #2a2a2a;
+    --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+body {
+    background-color: var(--bg);
+    font-family: 'Open Sans', sans-serif;
+    color: var(--text);
+    padding: 2rem;
+}
+
+.login-logo {
+    display: block;
+    margin: 2rem auto 1rem auto;
+    max-width: 180px;
+}
+
+.login-wrapper {
+    max-width: 400px;
+    margin: 0 auto;
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+}
+
+.login-title {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--primary-dark);
+    margin-bottom: 2rem;
+}
+
+.login-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.login-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.form-actions .btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 130px;
+    height: 45px;
+    background-color: var(--primary-dark);
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 25px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+    font-family: 'Open Sans', sans-serif;
+    padding: 0;
+}
+
+.form-actions .btn:hover {
+    background-color: var(--primary);
+}
+
+.error-message {
+    color: #b00020;
+    font-weight: bold;
+    margin-top: 1rem;
+    text-align: center;
+}

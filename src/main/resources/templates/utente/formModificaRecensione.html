@@ -7,32 +7,29 @@
 </head>
 <body>
 
-    <h1>Modifica la tua recensione</h1>
+    <a href="/"><img src="/images/logo-app.png" class="login-logo" alt="Logo SiwBooks" /></a>
 
-    <form th:action="@{'/recensioni/' + ${recensione.id} + '/update'}" method="post" th:object="${recensione}">
-        
-        <div>
+    <div class="container">
+        <h1>Modifica la tua recensione</h1>
+
+        <form th:action="@{'/recensioni/' + ${recensione.id} + '/update'}" method="post" th:object="${recensione}">
+            
             <label for="titolo">Titolo:</label>
             <input type="text" id="titolo" th:field="*{titolo}" required />
-        </div>
 
-        <div>
             <label for="voto">Voto (1-5):</label>
             <input type="number" id="voto" th:field="*{voto}" min="1" max="5" required />
-        </div>
 
-        <div>
-            <label for="testo">Testo:</label><br>
-            <textarea id="testo" th:field="*{testo}" rows="6" cols="60" required></textarea>
-        </div>
+            <label for="testo">Testo:</label>
+            <textarea id="testo" th:field="*{testo}" rows="6" required></textarea>
 
-        <div>
             <button type="submit">Salva modifiche</button>
+        </form>
+
+        <div class="action-links">
+            <a th:href="@{/libri/{id}(id=${recensione.libro.id})}">Torna al libro</a>
         </div>
-
-    </form>
-
-    <p><a th:href="@{/libri/{id}(id=${recensione.libro.id})}">Torna al libro</a></p>
+    </div>
 
 </body>
 </html>

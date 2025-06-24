@@ -4,61 +4,74 @@
 <head>
     <meta charset="UTF-8" />
     <title th:text="${libro.titolo}">Libro</title>
-    <link rel="stylesheet" href="/css/stile.css" />
+	<link rel="stylesheet" href="/css/stile.css" />
 </head>
 <body>
 
-    <div><img src="/images/logo-app.png" width="25%" /></div>
+    <a href="/"><img src="/images/logo-app.png" class="login-logo" alt="Logo SiwBooks" /></a>
 
-    <h1 th:text="${libro.titolo}">Titolo</h1>
-    <p>Anno di pubblicazione: <span th:text="${libro.annoPubblicazione}"></span></p>
+    <div class="container">
+        <h1 th:text="${libro.titolo}">Titolo</h1>
+        <p><strong>Anno di pubblicazione:</strong> <span th:text="${libro.annoPubblicazione}"></span></p>
 
-    <h2>Autori</h2>
-    <ul>
-        <li th:each="autore : ${libro.autori}">
-            <a th:href="@{'/autori/' + ${autore.id}}" 
-               th:text="${autore.nome} + ' ' + ${autore.cognome}"></a>
-        </li>
-    </ul>
+        <div class="detail-section">
+            <h2>Autori</h2>
+            <ul>
+                <li th:each="autore : ${libro.autori}">
+                    <a th:href="@{'/autori/' + ${autore.id}}" 
+                       th:text="${autore.nome} + ' ' + ${autore.cognome}"></a>
+                </li>
+            </ul>
+        </div>
 
-    <h2>Immagini del libro</h2>
-    <div style="display: flex; overflow-x: auto; gap: 20px; padding: 10px;">
-        <div th:each="path : ${libro.immagini}">
-            <img th:src="@{${path}}" width="250" style="flex-shrink: 0;" />
+        <div class="detail-section">
+            <h2>Immagini del libro</h2>
+            <div style="display: flex; overflow-x: auto; gap: 20px; padding: 10px;">
+                <div th:each="path : ${libro.immagini}">
+                    <img th:src="@{${path}}" class="detail-img" />
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <h2>Recensioni</h2>
+            <ul>
+                <li th:each="rec : ${libro.recensioni}">
+                    <h3 th:text="${rec.titolo}">Titolo recensione</h3>
+
+                    <strong th:text="${rec.autore.name + ' ' + rec.autore.surname}"></strong>
+					<div class="star-rating">
+					    <span th:each="i : ${#numbers.sequence(1, 5)}"
+					          th:classappend="${i <= rec.voto} ? 'active' : 'inactive'">★</span>
+					</div>
+					
+                    <p th:text="${rec.testo}"></p>
+
+                    <!-- Bottoni modifica/elimina visibili solo all’autore (non admin) -->
+                    <div sec:authorize="isAuthenticated()" 
+                         th:if="${user.id == rec.autore.id and userDetails.authorities[0].authority != 'ADMIN'}">
+                        <a th:href="@{'/recensioni/' + ${rec.id} + '/edit'}">Modifica</a>
+                        <a th:href="@{'/recensioni/' + ${rec.id} + '/delete'}">Elimina</a>
+                    </div>
+
+                    <!-- Elimina visibile anche all’admin -->
+                    <div sec:authorize="hasAuthority('ADMIN')">
+                        <a th:href="@{'/recensioni/' + ${rec.id} + '/delete'}">Elimina (Admin)</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Solo utenti non admin possono aggiungere recensioni -->
+        <div class="action-links" sec:authorize="isAuthenticated()" 
+             th:if="${userDetails.authorities[0].authority != 'ADMIN'}">
+            <a th:href="@{'/recensioni/libro/' + ${libro.id} + '/new'}">Aggiungi recensione</a>
+        </div>
+
+        <div class="action-links">
+            <a th:href="@{/libri}">Torna ai libri</a>
         </div>
     </div>
-
-    <h2>Recensioni</h2>
-    <ul>
-        <li th:each="rec : ${libro.recensioni}">
-            <h3 th:text="${rec.titolo}">Titolo recensione</h3>
-
-            <strong th:text="${rec.autore.name + ' ' + rec.autore.surname}"></strong>
-            <span th:text="'Voto: ' + ${rec.voto}"></span>
-            <p th:text="${rec.testo}"></p>
-
-            <!-- Bottoni modifica/elimina visibili solo all’autore (non admin) -->
-            <div sec:authorize="isAuthenticated()" 
-                 th:if="${user.id == rec.autore.id and userDetails.authorities[0].authority != 'ADMIN'}">
-                <a th:href="@{'/recensioni/' + ${rec.id} + '/edit'}">Modifica</a>
-                <a th:href="@{'/recensioni/' + ${rec.id} + '/delete'}">Elimina</a>
-            </div>
-
-            <!-- Elimina visibile anche all’admin -->
-            <div sec:authorize="hasAuthority('ADMIN')">
-                <a th:href="@{'/recensioni/' + ${rec.id} + '/delete'}">Elimina (Admin)</a>
-            </div>
-        </li>
-    </ul>
-
-    <!-- Solo utenti non admin possono aggiungere recensioni -->
-    <div sec:authorize="isAuthenticated()" 
-         th:if="${userDetails.authorities[0].authority != 'ADMIN'}">
-        <h3>Aggiungi recensione</h3>
-        <a th:href="@{'/recensioni/libro/' + ${libro.id} + '/new'}">Vai al form</a>
-    </div>
-
-    <p><a th:href="@{/libri}">Torna ai libri</a></p>
 
 </body>
 </html>

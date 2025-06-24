@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 
 <head>
-	<title>
-		Siw Books - Homepage
-	</title>
-	<link rel="stylesheet" href="/css/stile.css" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Siw Books - Admin</title>
+	<link rel="stylesheet" href="/css/admin-style.css" />
 </head>
 
 <body>
-	<header>
+	<header class="admin-header">
 		<div th:if="${userDetails}">
-			<span th:text="${userDetails.username}"></span>
+			<span th:text="${userDetails.username}">Admin</span>
 			<a href="/logout">Logout</a>
 		</div>
 		<div th:unless="${userDetails}">
@@ -19,22 +19,18 @@
 		</div>
 	</header>
 
-	<div><img src="/images/logo-app.png" width="25%" /></div>
-	<h1>Consulta l'archivio</h1>
-	<div>
-		<a href="/autori">Elenco Autori</a>
-	</div>
-	<div>
-		<a href="/libri">Elenco libri</a>
-	</div>
+	<img src="/images/logo-app.png" class="admin-logo" alt="Logo Siw Books" />
 
+	<div class="admin-container">
+		<h1 class="admin-title">📚 Pannello Amministratore</h1>
 
-	<h1>Operazioni per amministratore</h1>
-	<div>
-		<a href="/admin/autori/new">Aggiungi autore</a>
-	</div>
-	<div>
-		<a href="/admin/libri/new">Aggiungi libro</a>
+		<h2 class="admin-section-title">Consulta Archivio</h2>
+		<a href="/autori" class="admin-link" style="--delay: 0.2s">Elenco Autori</a>
+		<a href="/libri" class="admin-link" style="--delay: 0.4s">Elenco Libri</a>
+
+		<h2 class="admin-section-title">Gestione Contenuti</h2>
+		<a href="/admin/autori/new" class="admin-link" style="--delay: 0.6s">➕ Aggiungi Autore</a>
+		<a href="/admin/libri/new" class="admin-link" style="--delay: 0.8s">➕ Aggiungi Libro</a>
 	</div>
 </body>
 

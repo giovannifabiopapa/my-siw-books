@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+:root {
+    --primary: #f4a261;
+    --primary-dark: #e76f51;
+    --accent: #ffdd57;
+    --text: #2a2a2a;
+    --bg: #fff8f0;
+    --white: #ffffff;
+    --shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg);
+    font-family: 'Open Sans', sans-serif;
+    color: var(--text);
+    line-height: 1.6;
+    padding-top: 100px;
+}
+
+/* Header */
+.admin-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    color: var(--white);
+    z-index: 1000;
+    box-shadow: var(--shadow);
+    border-bottom: 3px solid var(--accent);
+}
+
+.admin-header a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 1rem;
+}
+
+.admin-header a:hover {
+    opacity: 0.85;
+}
+
+/* Logo */
+.admin-logo {
+    display: block;
+    margin: 2rem auto 1rem auto;
+    max-width: 160px;
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+/* Titoli */
+.admin-title {
+    font-family: 'Merriweather', serif;
+    text-align: center;
+    font-size: 2.4rem;
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+}
+
+.admin-section-title {
+    font-family: 'Merriweather', serif;
+    font-size: 1.8rem;
+    color: var(--primary-dark);
+    margin-top: 2.5rem;
+    text-align: center;
+}
+
+/* Container */
+.admin-container {
+    max-width: 900px;
+    margin: auto;
+    padding: 2rem;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+/* Link card-style */
+.admin-link {
+    display: block;
+    text-align: center;
+    margin: 1rem auto;
+    background: var(--primary-dark);
+    color: var(--white);
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    max-width: 300px;
+    opacity: 0;
+    animation: fadeSlideUp 0.6s ease-out forwards;
+    animation-delay: var(--delay, 0s);
+}
+
+.admin-link:hover {
+    background: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

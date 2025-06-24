@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8" />
     <title>Nuovo Libro</title>
     <link rel="stylesheet" href="/css/stile.css" />
 </head>
 <body>
+
     <header>
         <div th:if="${userDetails}">
             <span th:text="${userDetails.username}"></span>
@@ -15,38 +17,32 @@
         </div>
     </header>
 
-    <div>
-        <a href="/"><img src="/images/logo-app.png" width="25%" /></a>
-    </div>
-    <h1>Nuovo Libro</h1>
-	<form th:action="@{/admin/libri}" method="POST" th:object="${libro}" enctype="multipart/form-data">
-        <div>
-            <label>Titolo</label>
-            <span><input type="text" th:field="*{titolo}" /></span>
-            <span th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}" th:style="'color:red'"></span>
-        </div>
-        <div>
-            <label>Anno di pubblicazione</label>
-            <span><input type="number" th:field="*{annoPubblicazione}" /></span>
-            <span th:if="${#fields.hasErrors('annoPubblicazione')}" th:errors="*{annoPubblicazione}" th:style="'color:red'"></span>
-        </div>
-        <div>
-            <label>Autori</label>
-            <span>
-                <select multiple="multiple" th:field="*{autori}">
-                    <option th:each="autore : ${autori}" th:value="${autore.id}" th:text="${autore.nome} + ' ' + ${autore.cognome}"></option>
-                </select>
-            </span>
-        </div>
-		
-		<div>
-		    <label>Immagini del libro</label>
-		    <input type="file" name="fileImages" accept="image/*" multiple />
-		</div>
+    <a href="/"><img src="/images/logo-app.png" class="login-logo" alt="Logo SiwBooks" /></a>
 
-        <div>
+    <div class="container">
+        <h1>Nuovo Libro</h1>
+
+        <form th:action="@{/admin/libri}" method="POST" th:object="${libro}" enctype="multipart/form-data">
+
+            <label for="titolo">Titolo</label>
+            <input type="text" id="titolo" th:field="*{titolo}" />
+            <div th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}" class="error-message"></div>
+
+            <label for="annoPubblicazione">Anno di pubblicazione</label>
+            <input type="number" id="annoPubblicazione" th:field="*{annoPubblicazione}" />
+            <div th:if="${#fields.hasErrors('annoPubblicazione')}" th:errors="*{annoPubblicazione}" class="error-message"></div>
+
+            <label for="autori">Autori</label>
+            <select id="autori" multiple th:field="*{autori}">
+                <option th:each="autore : ${autori}" th:value="${autore.id}" th:text="${autore.nome + ' ' + autore.cognome}"></option>
+            </select>
+
+            <label for="fileImages">Immagini del libro</label>
+            <input type="file" id="fileImages" name="fileImages" accept="image/*" multiple />
+
             <button type="submit">Aggiungi</button>
-        </div>
-    </form>
+        </form>
+    </div>
+
 </body>
 </html>
